@@ -15,10 +15,11 @@ namespace HW1
         private int trip;
 
        
-        public Bus(int regNum, DateTime regDate)
+        public Bus(int regNum, DateTime regDate, DateTime serviceDate)
         {
             this.registrationNum = regNum;
             this.firstRegDate = regDate;
+            this.lastService = new BusService(serviceDate);
         }
 
         public String RegistrationNum { 
@@ -32,5 +33,15 @@ namespace HW1
         public int Trip { get => trip; set => trip = value; }
         public int Odometer { get => odometer;  }
         internal BusService LastService { get => lastService; set => lastService = value; }
+        public bool CheckRegNum(int regNum)
+        {
+            return this.registrationNum == regNum;
+        }
+
+        internal void DoRide(int km)
+        {
+            this.Trip += km;
+            this.odometer += km;
+        }
     }
 }
