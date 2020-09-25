@@ -36,8 +36,7 @@ namespace HW1
         }
         static void Main(string[] args)
         {
-
-            List<Bus> FleetList = new List<Bus>();
+            Dictionary<int,Bus> Fleet = new Dictionary<int, Bus>();
             string choice;
             int regNum;
             do
@@ -49,15 +48,14 @@ namespace HW1
                         Console.WriteLine("Insert new bus, Registration Number, Date of registration(DD/MM/YYYY) : ");
                         regNum = int.Parse(Console.ReadLine());
                         DateTime regDate = DateTime.Parse((Console.ReadLine()));
-                        FleetList.Add(new Bus(regNum, regDate, DateTime.Now));
+                        Fleet[regNum] = new Bus(regNum, regDate, DateTime.Now);
                         break;
                     case "b":
                         regNum = int.Parse(Console.ReadLine());
-                        int i = FindRegNum(FleetList, regNum);
-                        if (i != -1)
+                        if (Fleet.ContainsKey(regNum))
                         {
                             int km = r.Next(10, 200);
-                            FleetList[i].DoRide(km);
+                            Fleet[regNum].DoRide(km);
                         }
                         else
                         {
@@ -67,7 +65,7 @@ namespace HW1
                     case "c":
                         break;
                     case "d":
-                        foreach (var bus in FleetList)
+                        foreach (var bus in Fleet.Values)
                         {
                             Console.WriteLine(bus.RegistrationNum + "  " + bus.Odometer);
                         }
