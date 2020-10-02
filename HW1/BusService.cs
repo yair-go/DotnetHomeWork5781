@@ -11,6 +11,12 @@ namespace HW1
     /// </summary>
     class BusService
     {
+        #region *** private fields ***
+        private DateTime lastServiceDate;
+        private int odometer;
+        #endregion
+
+        #region *** constructors ***
         /// <summary>
         /// Initializes a new instance of Bus Service entity to the specified
         ///  last service date.
@@ -20,9 +26,9 @@ namespace HW1
         {
             this.lastServiceDate = lastServiceDate;
         }
+        #endregion
 
-
-        private DateTime lastServiceDate;
+        #region *** public properties ***
         /// <summary>
         /// Gets and sets the last service date represented by this Bus Service instance
         /// </summary>
@@ -31,7 +37,7 @@ namespace HW1
         /// <summary>
         /// Gets and sets the odometer value represented by this Bus Service instance
         /// </summary>
-        private int odometer;
         public int Odometer { get => odometer; set => odometer = value; }
+        #endregion
     }
 }
