@@ -11,12 +11,6 @@ namespace HW1
     /// </summary>
     class Bus
     {
-        private int registrationNum;
-        private DateTime firstRegDate;
-        private BusService lastService;
-        private int odometer;
-        private int trip;
-
         /// <summary>
         /// Initializes a new instance of Bus entity to the specified
         ///  registration number, date of registration, and last service.
@@ -33,6 +27,7 @@ namespace HW1
             this.lastService = new BusService(serviceDate);
         }
 
+        private int registrationNum;
         /// <summary>
         /// Gets the registration number represented by this Bus instance.
         /// Returns:
@@ -46,22 +41,26 @@ namespace HW1
                 firstRegDate < new DateTime(2018, 1, 1) ? "00-000-00" : "000-00-000");
         }
 
+        private DateTime firstRegDate;
         /// <summary>
         /// Gets and sets the registration date represented by this Bus instance
         /// </summary>
         public DateTime FirstRegDate { get => firstRegDate; set => firstRegDate = value; }
 
+        private int trip;
         /// <summary>
         /// Gets and sets the trip represented by this Bus instance
         /// </summary>
         public int Trip { get => trip; set => trip = value; }
 
 
+        private int odometer;
         /// <summary>
         /// Gets the odometer measurement represented by this Bus instance
         /// </summary>
         public int Odometer { get => odometer; }
 
+        private BusService lastService;
         /// <summary>
         /// Gets and sets the last service represented by this Bus instance
         /// </summary>
