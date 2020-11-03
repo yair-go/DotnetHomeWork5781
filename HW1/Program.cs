@@ -65,7 +65,8 @@ namespace HW1
                 {
                     case "a": // add a bus
                         Console.WriteLine("Insert new bus, Registration Number, Date of registration(DD/MM/YYYY) : ");
-                        regNum = int.Parse(Console.ReadLine());
+                        Boolean s = int.TryParse(Console.ReadLine(), out regNum);
+                        //regNum = int.Parse(Console.ReadLine());
                         DateTime regDate = DateTime.Parse((Console.ReadLine()));
                         FleetList.Add(new Bus(regNum, regDate, DateTime.Now));
                         break;
