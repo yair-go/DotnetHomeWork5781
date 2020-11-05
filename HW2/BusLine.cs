@@ -136,7 +136,11 @@ namespace HW2
         public BusLine SubRoute(BusStation busStationA, BusStation busStationB)
         {
             //TODO: implement Sub Route 
-            return new BusLine(this.busLineNum, this.firstStation, this.lastStation)
+            return new BusLine(this.busLineNum, this.firstStation, this.lastStation, this.area);
+        }
+        public override bool Equals(object obj)
+        {
+            return this.busLineNum.Equals((obj as BusLine).busLineNum );
         }
     }
 }
