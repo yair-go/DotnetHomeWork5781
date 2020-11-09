@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HW2
 {
-    class BusStation
+    public class BusStation
     {
         #region *** private fields ***
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HW2
 {
-    class BusLine : IComparable
+    public class BusLine : IComparable
     {
         private List<BusLineStation> stations;
         private int busLineNum;
@@ -31,7 +31,7 @@ namespace HW2
 
         public int BusLineNum { get => busLineNum; set => busLineNum = value; }
         public Area Area { get => area; set => area = value; }
-        internal List<BusLineStation> Stations { get => stations; set => stations = value; }
+        public List<BusLineStation> Stations { get => stations; set => stations = value; }
         internal BusStation FirstStation
         {
             get
@@ -141,6 +141,16 @@ namespace HW2
         public override bool Equals(object obj)
         {
             return this.busLineNum.Equals((obj as BusLine).busLineNum );
+        }
+
+        public bool Contain(int stationCode)
+        {
+            foreach (var station in stations)
+            {
+                if (station.BusStaionCode == stationCode)
+                    return true;
+            }
+            return false;
         }
     }
 }

@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace HW2
 {
-    class BusLines : IEnumerable
+    public class BusLines : IEnumerable
     {
         List<BusLine> busLines;
+
+        public List<BusLine> GetBusLines { get => busLines;  }
 
         public BusLines()
         {
@@ -20,7 +22,7 @@ namespace HW2
            return busLines.GetEnumerator();
         }
 
-        internal void AddBusLine(BusLine busLine)
+        public void AddBusLine(BusLine busLine)
         {
             busLines.Add(busLine);
         }

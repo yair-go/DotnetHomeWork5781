@@ -38,7 +38,7 @@ namespace HW2
                 switch (option)
                 {
                     case (MenuOption.Add):
-                        Console.WriteLine("Add new Bus line(1)/ new Station(2)");
+                        Console.WriteLine("Add new Bus line (1)/ new Station (2)");
                         int addChoice = Int32.Parse(Console.ReadLine());
                         if (addChoice == 1) AddBusLine();
                         else AddStation();
@@ -46,6 +46,9 @@ namespace HW2
                     case (MenuOption.Delete):
                         break;
                     case (MenuOption.Search):
+                        Console.WriteLine("Search Lines in station (1)/ alternative  (2)");
+                        int searchChoice = Int32.Parse(Console.ReadLine());
+                        SearchLines(searchChoice);
                         break;
                     case (MenuOption.Show):
                         break;
@@ -60,7 +63,28 @@ namespace HW2
 
             example();
         }
-        
+
+        private static void SearchLines(int searchChoice)
+        {
+            if (searchChoice == 1)
+            {
+                int stationNum = int.Parse(Console.ReadLine());
+                foreach (BusLine busLine in AllBusLines )
+                {
+                    if (busLine.Contain(stationNum))
+                    {
+                        Console.WriteLine(busLine.BusLineNum);
+                    }
+                }
+            }
+            else
+            {
+                int stationNumA = int.Parse(Console.ReadLine());
+                int stationNumB = int.Parse(Console.ReadLine());
+
+            }
+        }
+
         private static void AddStation()
         {
             throw new NotImplementedException();
