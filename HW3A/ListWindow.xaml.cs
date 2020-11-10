@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HW2;
 
 namespace HW3A
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ListWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ListWindow : Window
     {
         static Random rand = new Random(DateTime.Now.Millisecond);
         BusLines AllBusLines = new BusLines();
         private BusLine currentDisplayBusLine;
 
-        public MainWindow()
+        public ListWindow()
         {
             InitializeComponent();
             GenerateBusLines(5);
@@ -37,33 +36,32 @@ namespace HW3A
 
         private void ShowBusLine(int index)
         {
-            MainGrid.Children.RemoveRange(1, 3);
+            //MainGrid.Children.RemoveRange(1, 3);
             //currentDisplayBusLine = AllBusLines.GetBusLines[index];
 
             //Use the indexer instead of the property GetBusLines
             currentDisplayBusLine = AllBusLines[index];
             UpGrid.DataContext = currentDisplayBusLine;
 
-            for (int i = 0; i < currentDisplayBusLine.Stations.Count; i++)
-            {
-                StationUserControl s = new StationUserControl(currentDisplayBusLine.Stations[i].BusStation);
-                MainGrid.Children.Add(s);
-                Grid.SetRow(s, i + 1);
-            }
+            lbBusLineStations.DataContext = currentDisplayBusLine.Stations;
+            //for (int i = 0; i < currentDisplayBusLine.Stations.Count; i++)
+            //{
+            //    StationUserControl s = new StationUserControl(currentDisplayBusLine.Stations[i].BusStation);
+            //    MainGrid.Children.Add(s);
+            //    Grid.SetRow(s, i + 1);
+            //}
         }
-
-
 
         #region Create Random data
 
-        private  void GenerateBusLines(int anount)
+        private void GenerateBusLines(int amount)
         {
-            for (int i = 0; i < anount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 BusLine busLine = getRandomBusLine();
                 AllBusLines.AddBusLine(busLine);
             }
-          
+
         }
         private static BusLine getRandomBusLine()
         {
@@ -71,7 +69,14 @@ namespace HW3A
             BusStation first = getRandomBusStation();
             BusStation last = getRandomBusStation();
             Area area = (Area)rand.Next(Enum.GetNames(typeof(Area)).Length);
-            return new BusLine(busLineNum, first, last, area);
+            BusLine busLine = new BusLine(busLineNum, first, last, area);
+            int rndStationCount = rand.Next(3,10);
+            for (int i = 1; i < rndStationCount; i++)
+            {
+                int minute = rand.Next(5, 20);
+                busLine.InsertStation(getRandomBusStation(), i, 0, minute);
+            }
+            return busLine;
         }
 
         private static BusStation getRandomBusStation()
@@ -82,13 +87,11 @@ namespace HW3A
             return new BusStation(stationCode, latitude, longitude);
         }
 
+
         #endregion
 
         private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //ShowBusLine(cbBusLines.SelectedIndex);
-
-            //Use the indexer instead of the property GetBusLines
             ShowBusLine(AllBusLines.BusLinesNums[cbBusLines.SelectedIndex]);
         }
     }

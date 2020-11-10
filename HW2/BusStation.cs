@@ -54,7 +54,7 @@ namespace HW2
         }
         public override string ToString()
         {
-            return $"Bus Station Code: {stationCode} {latitude}°N {longitude}°E";
+            return $"Bus Station Code: {stationCode} {latitude:F6}°N {longitude:F6}°E";
         }
 
 

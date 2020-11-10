@@ -1,0 +1,33 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HW3A"
+        xmlns:HW2="clr-namespace:HW2;assembly=HW2" x:Class="HW3A.ListWindow"
+        mc:Ignorable="d"
+        Title="ListWindow" Height="450" Width="800">
+
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <Label Content="Bus Line Number :" HorizontalAlignment="Left" Grid.Column="0" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" FontFamily="helvetica" FontSize="18"/>
+            <ComboBox Name="cbBusLines" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment= "Left"  VerticalAlignment="Stretch" Grid.Column="1" FontFamily="helvetica" FontSize="20" SelectionChanged="cbBusLines_SelectionChanged"/>
+            <Label Grid.Column="2" Content="Area :" HorizontalAlignment="Left" Margin="64,8,0,0" VerticalAlignment="Top" Width="85" FontFamily="helvetica" FontSize="20"/>
+            <TextBox HorizontalAlignment= "Stretch"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" Grid.Column="3" Text="{Binding Path=Area}" FontFamily="helvetica" FontSize="20"/>
+           
+        </Grid>
+        <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Left" Height="350" Margin="42,10,0,0" Grid.Row="1" ItemsSource="{Binding}"  VerticalAlignment="Top" Width="700"/>
+
+    </Grid>
+</Window>

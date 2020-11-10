@@ -13,6 +13,13 @@ namespace HW2
 
         public List<BusLine> GetBusLines { get => busLines;  }
 
+        public List<int> BusLinesNums 
+        { 
+            get 
+            {
+                return busLines.Select(busLine => busLine.BusLineNum).ToList();
+            } 
+        }
         public BusLines()
         {
             busLines = new List<BusLine>();
@@ -20,6 +27,14 @@ namespace HW2
         public IEnumerator GetEnumerator()
         {
            return busLines.GetEnumerator();
+        }
+
+        public BusLine this[int busLineNum]
+        {
+            get
+            {
+                return busLines.FirstOrDefault(busLine => busLine.BusLineNum == busLineNum);
+            }
         }
 
         public void AddBusLine(BusLine busLine)

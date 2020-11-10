@@ -22,7 +22,7 @@ namespace HW2
         {
             this.stations = new List<BusLineStation>();
             stations.Add(new BusLineStation(firstStation));
-            stations.Add(new BusLineStation(lastStation));
+            stations.Add(new BusLineStation(lastStation,0, new TimeSpan(0, 12, 0)));
             this.busLineNum = busLineNum;
             this.firstStation = firstStation;
             this.lastStation = lastStation;
@@ -62,6 +62,12 @@ namespace HW2
         {
             BusLineStation busLineStation = new BusLineStation(busStation, distance, new TimeSpan(0, minute, 0));
             stations.Insert(stations.Count - 1, busLineStation);
+        }
+
+        public void InsertStation(BusStation busStation, int pos, int distance, int minute)
+        {
+            BusLineStation busLineStation = new BusLineStation(busStation, distance, new TimeSpan(0, minute, 0));
+            stations.Insert(pos, busLineStation);
         }
 
         public void RemoveStation(BusStation busStation)

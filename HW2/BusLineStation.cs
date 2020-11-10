@@ -30,5 +30,10 @@ namespace HW2
         public int DistanceFromPrevStation { get => distanceFromPrevStation; set => distanceFromPrevStation = value; }
         public TimeSpan TimeFromPrevStation { get => timeFromPrevStation; set => timeFromPrevStation = value; }
         public BusStation BusStation { get => busStation; }
+
+        public override string ToString()
+        {
+            return busStation.ToString() + "\t" +TimeFromPrevStation;
+        }
     }
 }
