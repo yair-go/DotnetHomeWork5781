@@ -37,6 +37,14 @@ namespace HW2
             }
         }
 
+        public BusLine this[int busLineNum, Area area]
+        {
+            get
+            {
+                return busLines.Find(busLine => busLine.BusLineNum == busLineNum && busLine.Area == area);
+            }
+        }
+
         public void AddBusLine(BusLine busLine)
         {
             busLines.Add(busLine);

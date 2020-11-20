@@ -24,7 +24,7 @@
             <Label Content="Bus Line Number :" HorizontalAlignment="Left" Grid.Column="0" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" FontFamily="helvetica" FontSize="18"/>
             <ComboBox Name="cbBusLines" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment= "Left"  VerticalAlignment="Stretch" Grid.Column="1" FontFamily="helvetica" FontSize="20" SelectionChanged="cbBusLines_SelectionChanged"/>
             <Label Grid.Column="2" Content="Area :" HorizontalAlignment="Left" Margin="64,8,0,0" VerticalAlignment="Top" Width="85" FontFamily="helvetica" FontSize="20"/>
-            <TextBox HorizontalAlignment= "Stretch"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" Grid.Column="3" Text="{Binding Path=Area}" FontFamily="helvetica" FontSize="20"/>
+            <TextBox x:Name="tbArea" HorizontalAlignment= "Stretch"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" Grid.Column="3" Text="{Binding Path=Area, Mode=OneWay}" IsEnabled="False" FontFamily="helvetica" FontSize="20"/>
            
         </Grid>
         <ListBox x:Name="lbBusLineStations" HorizontalAlignment="Left" Height="350" Margin="42,10,0,0" Grid.Row="1" ItemsSource="{Binding}"  VerticalAlignment="Top" Width="700"/>

@@ -9,7 +9,7 @@ namespace HW1
     /// <summary>
     /// Represents a Bus Service entity in the bus lines management system
     /// </summary>
-    class BusService
+    public class BusService
     {
         #region *** private fields ***
         private DateTime lastServiceDate;
@@ -22,9 +22,10 @@ namespace HW1
         ///  last service date.
         /// </summary>
         /// <param name="lastServiceDate">the last service date</param>
-        public BusService(DateTime lastServiceDate)
+        public BusService(DateTime lastServiceDate, int odometer)
         {
             this.lastServiceDate = lastServiceDate;
+            this.odometer = odometer;
         }
         #endregion
 

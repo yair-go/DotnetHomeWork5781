@@ -68,7 +68,7 @@ namespace HW1
                         Boolean s = int.TryParse(Console.ReadLine(), out regNum);
                         //regNum = int.Parse(Console.ReadLine());
                         DateTime regDate = DateTime.Parse((Console.ReadLine()));
-                        FleetList.Add(new Bus(regNum, regDate, DateTime.Now));
+                        FleetList.Add(new Bus(regNum, regDate, DateTime.Now, 0));
                         break;
 
                     case "b": // find a bus and send it to a trip

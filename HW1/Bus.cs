@@ -9,7 +9,7 @@ namespace HW1
     /// <summary>
     /// Represents a bus entity in the bus lines management system
     /// </summary>
-    class Bus
+    public class Bus
     {
         #region *** private fields ***
         private int registrationNum;
@@ -29,11 +29,11 @@ namespace HW1
         /// <param name="regDate">the date of the bus vehicle registration</param>
         /// <param name="serviceDate">the date of the bus service</param>
         /// <exception cref="ArgumentOutOfRangeException" />
-        public Bus(int regNum, DateTime regDate, DateTime serviceDate)
+        public Bus(int regNum, DateTime regDate, DateTime serviceDate, int serviceOdo)
         {
             this.registrationNum = regNum;
             this.firstRegDate = regDate;
-            this.lastService = new BusService(serviceDate);
+            this.lastService = new BusService(serviceDate, serviceOdo);
         }
         #endregion
 
@@ -70,7 +70,7 @@ namespace HW1
         /// <summary>
         /// Gets and sets the last service represented by this Bus instance
         /// </summary>
-        internal BusService LastService { get => lastService; set => lastService = value; }
+        public BusService LastService { get => lastService; set => lastService = value; }
         #endregion
 
         #region *** operations ***
@@ -96,5 +96,10 @@ namespace HW1
             this.odometer += km;
         }
         #endregion
+
+        public override string ToString()
+        {
+            return RegistrationNum;
+        }
     }
 }

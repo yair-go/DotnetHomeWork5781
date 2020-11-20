@@ -12,4 +12,11 @@ namespace HW2
         South,
         Center,
         Jerusalem, }
+    
+    public enum RegNumType
+    {
+        Old = 7,
+        New
+    }
+
 }

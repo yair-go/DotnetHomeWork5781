@@ -27,8 +27,8 @@ namespace HW3A
         public ListWindow()
         {
             InitializeComponent();
-            GenerateBusLines(5);
-            cbBusLines.ItemsSource = AllBusLines.GetBusLines;
+            GenerateBusLines(10);
+            cbBusLines.ItemsSource = AllBusLines;
             cbBusLines.DisplayMemberPath = "BusLineNum";
             cbBusLines.SelectedIndex = 0;
             ShowBusLine(AllBusLines.BusLinesNums[0]);
@@ -36,20 +36,13 @@ namespace HW3A
 
         private void ShowBusLine(int index)
         {
-            //MainGrid.Children.RemoveRange(1, 3);
-            //currentDisplayBusLine = AllBusLines.GetBusLines[index];
-
+           
             //Use the indexer instead of the property GetBusLines
             currentDisplayBusLine = AllBusLines[index];
             UpGrid.DataContext = currentDisplayBusLine;
 
             lbBusLineStations.DataContext = currentDisplayBusLine.Stations;
-            //for (int i = 0; i < currentDisplayBusLine.Stations.Count; i++)
-            //{
-            //    StationUserControl s = new StationUserControl(currentDisplayBusLine.Stations[i].BusStation);
-            //    MainGrid.Children.Add(s);
-            //    Grid.SetRow(s, i + 1);
-            //}
+           
         }
 
         #region Create Random data
@@ -92,7 +85,8 @@ namespace HW3A
 
         private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ShowBusLine(AllBusLines.BusLinesNums[cbBusLines.SelectedIndex]);
+            // ShowBusLine(AllBusLines.BusLinesNums[cbBusLines.SelectedIndex]);
+            ShowBusLine((cbBusLines.SelectedValue as BusLine).BusLineNum);
         }
     }
 }

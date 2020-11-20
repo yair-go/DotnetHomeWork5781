@@ -30,7 +30,7 @@ namespace HW2
         }
 
         public int BusLineNum { get => busLineNum; set => busLineNum = value; }
-        public Area Area { get => area; set => area = value; }
+        public Area Area { get => area;  }
         public List<BusLineStation> Stations { get => stations; set => stations = value; }
         internal BusStation FirstStation
         {
