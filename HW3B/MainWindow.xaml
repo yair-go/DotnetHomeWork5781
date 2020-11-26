@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:HW3B"
         xmlns:HW1="clr-namespace:HW1;assembly=HW1" x:Class="HW3B.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="MainWindow" Height="411.585" Width="683.659" Loaded="Window_Loaded">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type HW1:Bus}, CreateList=True}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource busViewSource}">
-        <Button x:Name="pbAddBus" Content="Add New Bus" HorizontalAlignment="Left" Margin="614,225,0,0" VerticalAlignment="Top" Width="87" Click="pbAddBus_Click"/>
-
-        <ListView x:Name="busListView" ItemsSource="{Binding}" Margin="24,66,489,191" SelectionMode="Single">
+        <Button x:Name="pbAddBus" Content="Add New Bus" HorizontalAlignment="Left" Margin="489,256,0,0" VerticalAlignment="Top" Width="87" Click="pbAddBus_Click"/>
+        <ListView x:Name="busListView" ItemsSource="{Binding}" Margin="24,66,248,191" SelectionMode="Single" MouseDoubleClick="busListView_MouseDoubleClick" Background="{Binding /BusStatus}">
             <ListView.ItemContainerStyle>
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -22,13 +22,6 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="odometerColumn" Header="Odometer" Width="80">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Margin="6,-1,-6,-1" Text="{Binding Odometer, Mode=OneWay}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                     <GridViewColumn x:Name="registrationNumColumn" Header="Registration Num" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -36,10 +29,24 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="tripColumn" Header="Trip" Width="80">
+                    <GridViewColumn x:Name="odometerColumn" Header="Odometer" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="-6,-1" Text="{Binding Trip, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                <TextBox Margin="6,-1,-6,-1" Text="{Binding Odometer, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Drive"  Width="75" Click="DoRide"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Refuel"  Width="75" Click="Refuel"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

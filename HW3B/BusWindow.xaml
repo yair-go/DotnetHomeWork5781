@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:HW3B"
         xmlns:HW1="clr-namespace:HW1;assembly=HW1" x:Class="HW3B.BusWindow"
         mc:Ignorable="d"
-        Title="BusWindow" Height="400" Width="400" Loaded="Window_Loaded">
+        Title="BusWindow" Height="400" Width="400" Loaded="Window_Loaded" Closed="Window_Closed">
     <Window.Resources>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type HW1:Bus}, CreateList=True}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource busViewSource}" Margin="0">
-        <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="50,47,0,0" VerticalAlignment="Top" Height="249" Width="292">
+        <Grid x:Name="busGrid" HorizontalAlignment="Left" Margin="50,47,0,0" VerticalAlignment="Top" Height="249" Width="292">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -31,11 +31,13 @@
             <Label Content="Registration Num:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
             <TextBox x:Name="registrationNumTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding RegistrationNum, Mode=OneWay}" VerticalAlignment="Center" Width="120"/>
             <Label Content="Trip:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-            <TextBox x:Name="tripTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Trip, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="tripTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Trip, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             <Label Content="Last Service Date:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <DatePicker x:Name="lastServiceDateDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="4" SelectedDate="{Binding LastService.LastServiceDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
-            <Label Content="Odometer:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <Label Content="Last Servise:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
             <TextBox x:Name="odometerTextBox1" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" Text="{Binding LastService.Odometer, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>
+        <Button x:Name="pbRefuel" Content="Refuel" HorizontalAlignment="Left" Margin="76,327,0,0" VerticalAlignment="Top" Width="75" Click="pbRefuel_Click"/>
+        <Button x:Name="pbService" Content="Service" HorizontalAlignment="Left" Margin="248,327,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>

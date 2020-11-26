@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using HW2;
 
 namespace HW1
 {
@@ -17,6 +20,12 @@ namespace HW1
         private int trip;
         private int odometer;
         private BusService lastService;
+        private BusStatus busStatus;
+        private static readonly int fullFuel = 1200;
+        #endregion
+
+        #region Events
+        private BackgroundWorker refuelWorker;
         #endregion
 
         #region *** constructors ***
@@ -29,12 +38,15 @@ namespace HW1
         /// <param name="regDate">the date of the bus vehicle registration</param>
         /// <param name="serviceDate">the date of the bus service</param>
         /// <exception cref="ArgumentOutOfRangeException" />
-        public Bus(int regNum, DateTime regDate, DateTime serviceDate, int serviceOdo)
+        public Bus(int regNum = 1, DateTime regDate = default(DateTime), DateTime serviceDate = default(DateTime), int serviceOdo = 0, int odometer = 0)
         {
             this.registrationNum = regNum;
             this.firstRegDate = regDate;
             this.lastService = new BusService(serviceDate, serviceOdo);
-        }
+            this.odometer = odometer;
+            this.trip = fullFuel;
+            this.BusStatus = BusStatus.Ready;
+        }      
         #endregion
 
         #region *** properties ***
@@ -59,7 +71,7 @@ namespace HW1
         /// <summary>
         /// Gets and sets the trip represented by this Bus instance
         /// </summary>
-        public int Trip { get => trip; set => trip = value; }
+        public int Trip { get => trip; }
 
 
         /// <summary>
@@ -71,6 +83,11 @@ namespace HW1
         /// Gets and sets the last service represented by this Bus instance
         /// </summary>
         public BusService LastService { get => lastService; set => lastService = value; }
+        /// <summary>
+        ///  Gets and sets the Bus Status represented by this Bus instance
+        /// </summary>
+        public BusStatus BusStatus { get => busStatus; set => busStatus = value; }
+        public BackgroundWorker RefuelWorker { get => refuelWorker; }
         #endregion
 
         #region *** operations ***
@@ -85,14 +102,35 @@ namespace HW1
             return this.registrationNum == regNum;
         }
 
+        public BackgroundWorker Refueling()
+        {
+            refuelWorker = new BackgroundWorker();
+            refuelWorker.DoWork += RefuelWorker_DoWork;
+            refuelWorker.RunWorkerCompleted += RefuelWorker_RunWorkerCompleted;
+            refuelWorker.RunWorkerAsync();
+            return refuelWorker;
+        }
+
+        private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.trip = fullFuel;
+            this.BusStatus = BusStatus.Ready;
+        }
+
+        private void RefuelWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            this.busStatus = BusStatus.OnRefueling;
+            Thread.Sleep(4000); // From students required 12000
+        }
+
         /// <summary>
         /// Updates the attributes represented by the instance with the specified trip
         /// distance
         /// </summary>
         /// <param name="km">the trip distance in km</param>
-        internal void DoRide(int km)
+        public void DoRide(int km)
         {
-            this.Trip += km;
+            this.trip -= km;
             this.odometer += km;
         }
         #endregion

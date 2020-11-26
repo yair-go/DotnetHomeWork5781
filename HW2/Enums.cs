@@ -6,17 +6,26 @@ using System.Threading.Tasks;
 
 namespace HW2
 {
-    public enum Area { 
+    public enum Area 
+    { 
         General,
         North,
         South,
         Center,
-        Jerusalem, }
+        Jerusalem, 
+    }
     
     public enum RegNumType
     {
         Old = 7,
-        New
+        New,
     }
 
+    public enum BusStatus
+    {
+        Ready,
+        DuringTrip,
+        OnRefueling,
+        InService,
+    }
 }

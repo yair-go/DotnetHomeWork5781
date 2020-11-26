@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +25,13 @@ namespace HW3B
     public partial class MainWindow : Window
     {
         static Random rand = new Random(DateTime.Now.Millisecond);
-        static List<Bus> buses = new List<Bus>();
+        static  BindingList<Bus> buses = new BindingList<Bus>();
         public MainWindow()
         {
-            GenerateBuses(2);
             InitializeComponent();
-        }
+            GenerateBuses(10);
+           // busListView.ItemsSource = buses;
+        }         
 
         private static void GenerateBuses(int amount)
         {
@@ -37,11 +39,12 @@ namespace HW3B
             {
                 RegNumType regNumType = (RegNumType)rand.Next(7, 9);
                 int regNum = getRandomRegNum(regNumType);
-                int addition = (-(int)regNumType - 8) * 36;
-                DateTime regDate = getRandomDateTime(rand.Next(2,35) + addition);
-                DateTime serviceDate = getRandomDateTime(rand.Next(1,10));
-                int serviceOdo = rand.Next(20000); 
-                buses.Add(new Bus(regNum, regDate, serviceDate, serviceOdo));
+                int addition = ((int)regNumType - 8) * 36;
+                DateTime regDate = getRandomDateTime(rand.Next(2,35) - addition);
+                DateTime serviceDate = getRandomDateTime(rand.Next(1,13));
+                int odo = rand.Next(10000, 20000) + (rand.Next(19700, 20000) * rand.Next(1, DateTime.Now.Year - regDate.Year + 1));
+                int serviceOdo = odo - (DateTime.Now - serviceDate).Days * 90;
+                buses.Add(new Bus(regNum, regDate, serviceDate, serviceOdo, odo));
             }
         }
 
@@ -65,12 +68,85 @@ namespace HW3B
 
             System.Windows.Data.CollectionViewSource busViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("busViewSource")));
             // Load data by setting the CollectionViewSource.Source property:
-            // busViewSource.Source = [generic data source]
+            busViewSource.Source = buses;
         }
 
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
         {
-            new BusWindow().Show();
+            BusWindow busWindow =  new BusWindow();
+            busWindow.Closed += AddBusWindow_Closed;
+            busWindow.Show();
+
         }
+
+        private void AddBusWindow_Closed(object sender, EventArgs e)
+        {
+            Bus resultBus =  (sender as BusWindow).CurrentBus;
+            buses.Add(resultBus);
+        }
+
+        private void DoRide(object sender, RoutedEventArgs e)
+        {
+            Bus bus = ((sender as Button).DataContext as Bus);
+            if (NotReady(bus))
+            {
+                MessageBox.Show("Not Ready");
+            }
+            else
+            {
+                DoRideWindow doRideWindow = new DoRideWindow(bus);
+                doRideWindow.Closed += Refresh_busViewSource;
+                doRideWindow.Show();
+            }
+        }
+
+        /// <summary>
+        /// Checking if a bus can make the ride 
+        /// </summary>
+        /// <param name="bus"></param>
+        /// <returns></returns>
+        private static bool NotReady(Bus bus)
+        {
+            if (bus.BusStatus != BusStatus.Ready)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void Refresh_busViewSource(object sender, EventArgs e)
+        {
+            if (sender is BusWindow)
+            {
+                BackgroundWorker refuelWorker = (sender as BusWindow).CurrentBus.RefuelWorker;
+                if (refuelWorker != null && refuelWorker.IsBusy)
+                {
+                    refuelWorker.RunWorkerCompleted += RefuelWorker_RunWorkerCompleted;
+                }
+            }
+            busListView.Items.Refresh();
+        }
+
+        private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Refueling is over");
+            busListView.Items.Refresh();
+        }
+
+        private void busListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Bus bus =  (sender as ListView).SelectedItem as Bus;
+            BusWindow busWindow = new BusWindow(bus);
+            busWindow.Closed += Refresh_busViewSource;
+            busWindow.Show();
+        }
+
+        private void Refuel(object sender, RoutedEventArgs e)
+        {
+            Bus bus = ((sender as Button).DataContext as Bus);
+            BackgroundWorker refuelWorker =  bus.Refueling();
+            refuelWorker.RunWorkerCompleted += RefuelWorker_RunWorkerCompleted;
+        }
+
     }
 }
