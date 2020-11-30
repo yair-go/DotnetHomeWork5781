@@ -30,7 +30,7 @@ namespace HW3B
         {
             InitializeComponent();
             GenerateBuses(10);
-           // busListView.ItemsSource = buses;
+            busListView.DataContext = buses;
         }         
 
         private static void GenerateBuses(int amount)
@@ -68,7 +68,7 @@ namespace HW3B
 
             System.Windows.Data.CollectionViewSource busViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("busViewSource")));
             // Load data by setting the CollectionViewSource.Source property:
-            busViewSource.Source = buses;
+          //  busViewSource.Source = buses;
         }
 
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
@@ -127,12 +127,6 @@ namespace HW3B
             busListView.Items.Refresh();
         }
 
-        private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MessageBox.Show("Refueling is over");
-            busListView.Items.Refresh();
-        }
-
         private void busListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Bus bus =  (sender as ListView).SelectedItem as Bus;
@@ -144,9 +138,24 @@ namespace HW3B
         private void Refuel(object sender, RoutedEventArgs e)
         {
             Bus bus = ((sender as Button).DataContext as Bus);
-            BackgroundWorker refuelWorker =  bus.Refueling();
+            BackgroundWorker refuelWorker = bus.Refueling();
+            busListView.Items.Refresh();
             refuelWorker.RunWorkerCompleted += RefuelWorker_RunWorkerCompleted;
+
+            //bus.RefuelingWithEvevt();
+            //bus.RefuelingCompleted += Bus_RefuelingCompleted;
         }
 
+        private void Bus_RefuelingCompleted()
+        {
+            MessageBox.Show("Refueling is over");
+           // busListView.Items.Refresh();
+        }
+
+        private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Refueling is over");
+            busListView.Items.Refresh();
+        }
     }
 }

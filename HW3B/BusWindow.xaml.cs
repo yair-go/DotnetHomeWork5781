@@ -61,6 +61,7 @@ namespace HW3B
         private void pbRefuel_Click(object sender, RoutedEventArgs e)
         {
             currentBus.Refueling();
+            this.Close();
         }
     }
 }

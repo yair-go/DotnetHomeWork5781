@@ -10,14 +10,16 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type HW1:Bus}, CreateList=True}"/>
+        <local:BusStatusToBGColorConverter x:Key="BusStatusToBGColorConverter"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource busViewSource}">
-        <Button x:Name="pbAddBus" Content="Add New Bus" HorizontalAlignment="Left" Margin="489,256,0,0" VerticalAlignment="Top" Width="87" Click="pbAddBus_Click"/>
-        <ListView x:Name="busListView" ItemsSource="{Binding}" Margin="24,66,248,191" SelectionMode="Single" MouseDoubleClick="busListView_MouseDoubleClick" Background="{Binding /BusStatus}">
+        <Button x:Name="pbAddBus" Content="Add New Bus" HorizontalAlignment="Left" Margin="557,265,0,0" VerticalAlignment="Top" Width="87" Click="pbAddBus_Click"/>
+        <ListView x:Name="busListView" ItemsSource="{Binding}" Margin="24,66,163,44" SelectionMode="Single" MouseDoubleClick="busListView_MouseDoubleClick" Background="{Binding /BusStatus}">
             <ListView.ItemContainerStyle>
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Control.Background" Value="{Binding BusStatus, Mode=OneWay, Converter={StaticResource BusStatusToBGColorConverter}}"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
@@ -33,6 +35,13 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Margin="6,-1,-6,-1" Text="{Binding Odometer, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="statusColumn" Header="Status" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Margin="6,-1,-6,-1" Background="{Binding BusStatus, Mode=OneWay, Converter={StaticResource BusStatusToBGColorConverter}}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

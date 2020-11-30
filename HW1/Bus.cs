@@ -9,10 +9,12 @@ using HW2;
 
 namespace HW1
 {
+    public delegate void RefuelingCompletedEventHandler();
+
     /// <summary>
     /// Represents a bus entity in the bus lines management system
     /// </summary>
-    public class Bus
+    public class Bus : INotifyPropertyChanged
     {
         #region *** private fields ***
         private int registrationNum;
@@ -22,10 +24,13 @@ namespace HW1
         private BusService lastService;
         private BusStatus busStatus;
         private static readonly int fullFuel = 1200;
-        #endregion
+        #endregion  
 
         #region Events
         private BackgroundWorker refuelWorker;
+
+        public event RefuelingCompletedEventHandler RefuelingCompleted = null;
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region *** constructors ***
@@ -86,7 +91,18 @@ namespace HW1
         /// <summary>
         ///  Gets and sets the Bus Status represented by this Bus instance
         /// </summary>
-        public BusStatus BusStatus { get => busStatus; set => busStatus = value; }
+        public BusStatus BusStatus
+        {
+            get => busStatus;
+            set
+            { 
+                busStatus = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("BusStatus")); 
+                }
+            }
+        }
         public BackgroundWorker RefuelWorker { get => refuelWorker; }
         #endregion
 
@@ -111,6 +127,27 @@ namespace HW1
             return refuelWorker;
         }
 
+        public void RefuelingWithEvevt()
+        {
+            this.busStatus = BusStatus.OnRefueling;
+            new Thread(
+                () =>
+                {
+                    Thread.Sleep(4000); // From students required 12000
+                    handleRefuelingCompleted();
+                }
+            ).Start();
+        }
+
+        private void handleRefuelingCompleted()
+        {
+            this.busStatus = BusStatus.Ready;
+            if (RefuelingCompleted != null)
+            {
+                RefuelingCompleted();
+            }
+        }
+
         private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.trip = fullFuel;
@@ -120,7 +157,7 @@ namespace HW1
         private void RefuelWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             this.busStatus = BusStatus.OnRefueling;
-            Thread.Sleep(4000); // From students required 12000
+            Thread.Sleep(6000); // From students required 12000
         }
 
         /// <summary>
