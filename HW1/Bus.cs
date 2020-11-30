@@ -157,6 +157,7 @@ namespace HW1
         private void RefuelWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             this.busStatus = BusStatus.OnRefueling;
+            e.Result = this;
             Thread.Sleep(6000); // From students required 12000
         }
 

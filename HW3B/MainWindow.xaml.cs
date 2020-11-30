@@ -154,7 +154,7 @@ namespace HW3B
 
         private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("Refueling is over");
+            MessageBox.Show($"Bus {(e.Result as Bus).RegistrationNum}  refueling is complete");
             busListView.Items.Refresh();
         }
     }
