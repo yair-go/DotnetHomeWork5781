@@ -76,7 +76,18 @@ namespace HW1
         /// <summary>
         /// Gets and sets the trip represented by this Bus instance
         /// </summary>
-        public int Trip { get => trip; }
+        public int Trip 
+        { 
+            get => trip;
+            set
+            {
+                trip = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Trip"));
+                }
+            }
+        }
 
 
         /// <summary>
@@ -123,8 +134,15 @@ namespace HW1
             refuelWorker = new BackgroundWorker();
             refuelWorker.DoWork += RefuelWorker_DoWork;
             refuelWorker.RunWorkerCompleted += RefuelWorker_RunWorkerCompleted;
+            refuelWorker.ProgressChanged += RefuelWorker_ProgressChanged;
+            refuelWorker.WorkerReportsProgress = true;
             refuelWorker.RunWorkerAsync();
             return refuelWorker;
+        }
+
+        private void RefuelWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Trip += e.ProgressPercentage;
         }
 
         public void RefuelingWithEvevt()
@@ -150,7 +168,7 @@ namespace HW1
 
         private void RefuelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.trip = fullFuel;
+           // this.trip = fullFuel;
             this.BusStatus = BusStatus.Ready;
         }
 
@@ -158,7 +176,13 @@ namespace HW1
         {
             this.busStatus = BusStatus.OnRefueling;
             e.Result = this;
-            Thread.Sleep(6000); // From students required 12000
+            int lack = fullFuel - trip;
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(600);
+                refuelWorker.ReportProgress(lack / 10);
+            }
+            //Thread.Sleep(6000); // From students required 12000
         }
 
         /// <summary>

@@ -11,10 +11,11 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type HW1:Bus}, CreateList=True}"/>
         <local:BusStatusToBGColorConverter x:Key="BusStatusToBGColorConverter"/>
+        <local:TripToProgressBarConverter x:Key="TripToProgressBarConverter"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource busViewSource}">
         <Button x:Name="pbAddBus" Content="Add New Bus" HorizontalAlignment="Left" Margin="557,265,0,0" VerticalAlignment="Top" Width="87" Click="pbAddBus_Click"/>
-        <ListView x:Name="busListView" ItemsSource="{Binding}" Margin="24,66,163,44" SelectionMode="Single" MouseDoubleClick="busListView_MouseDoubleClick" Background="{Binding /BusStatus}">
+        <ListView x:Name="busListView" ItemsSource="{Binding}" Margin="24,67,124,44" SelectionMode="Single" MouseDoubleClick="busListView_MouseDoubleClick" Background="{Binding /BusStatus}">
             <ListView.ItemContainerStyle>
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -56,6 +57,13 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Refuel"  Width="75" Click="Refuel"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ProgressBar  Value="{Binding Trip, Mode=OneWay,Converter={StaticResource TripToProgressBarConverter}}" Width="75" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
